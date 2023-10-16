@@ -18,7 +18,9 @@ const app = express();
 dotenv.config()
 const port = process.env.PORT_URL || 3500;
 const dbport = process.env.DB_URL
-app.use(Logger)
+if(process.env.NODE_ENV !== 'production'){
+  app.use(Logger)
+}
 dbconnection(dbport)
 app.use(cors(corsOptions))
 app.use(express.json())
