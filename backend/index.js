@@ -4,6 +4,7 @@ import mongoose from "mongoose"
 import dbconnection from "./config/dbconnect.js"
 import cors from "cors"
 import corsOptions from './features/cors.js';
+import Credentials from "./features/credentials.js"
 import { Logger , LogEvents } from "./features/logreporter.js"
 import ErrHandler from './features/errorhandler.js';
 import NotFound from "./features/notfound.js";
@@ -22,8 +23,8 @@ if(process.env.NODE_ENV !== 'production'){
   app.use(Logger)
 }
 dbconnection(dbport)
-app.use(cors())
-// app.use(cors(corsOptions))
+app.use(Credentials)
+app.use(cors(corsOptions))
 app.use(express.json())
 const __dirname = path.resolve()
 // const __dirname = path.dirname(new URL(import.meta.url).pathname);
