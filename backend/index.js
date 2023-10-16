@@ -22,7 +22,8 @@ if(process.env.NODE_ENV !== 'production'){
   app.use(Logger)
 }
 dbconnection(dbport)
-app.use(cors(corsOptions))
+app.use(cors())
+// app.use(cors(corsOptions))
 app.use(express.json())
 const __dirname = path.resolve()
 // const __dirname = path.dirname(new URL(import.meta.url).pathname);
