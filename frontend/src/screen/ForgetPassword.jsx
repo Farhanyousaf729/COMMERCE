@@ -11,15 +11,21 @@ const ForgetPassword = () => {
     const [error, setError] = useState("")
     const [state, setState] = useState({ email: "" })
     const [OTP, setOTP] = useState("");
-    const [password, setPassword] = useState('')
-    const [confirmPassword, setConfirmPassword] = useState("")
+    const [password, setPassword] = useState(null)
+    const [confirmPassword, setConfirmPassword] = useState(null)
     const navigate = useNavigate()
+    useEffect(() => {
+        setError("")
+        setOTP("")
+    }, [res, password, confirmPassword])
+
+    
 
     const getOtp = async () => {
         try {
+
             const response = await axios.post("/api/password/forget", state)
             setRes(response.data.otptoken)
-
         }
         catch (err) {
             setError(err.message)
@@ -32,10 +38,11 @@ const ForgetPassword = () => {
         getOtp()
 
     }
-
     const AuthOtp = async () => {
         try {
-
+            if (password !== confirmPassword || password === null || confirmPassword === null) {
+                throw new Error("Password and confirmed password do not match");
+            }
             const config = {
                 headers: {
                     "Content-Type": "application/json",
@@ -43,7 +50,7 @@ const ForgetPassword = () => {
 
                 },
             }
-            if (password !== confirmPassword) throw Error("password not match")
+
 
             const obj = {
                 password: password,
@@ -51,8 +58,8 @@ const ForgetPassword = () => {
             }
 
             const update = await axios.put("/api/password/forget", obj, config)
-            setError(update.data)
-            if (update) {
+            
+            if (update.data.status === "success") {
                 navigate('/login')
             }
         }
@@ -66,7 +73,8 @@ const ForgetPassword = () => {
             AuthOtp()
         }
 
-    }, [OTP, password, confirmPassword])
+    }, [OTP])
+
     return (
         <>
 
@@ -77,7 +85,7 @@ const ForgetPassword = () => {
 
                 {
                     !res && <form action="" className=' w-[80%] md:w-[50%] bg-blue-400 px-4 py-6 rounded-md flex flex-col pt-4' onSubmit={handleSubmit}>
-                        <input className='border-4 outline-none rounded-md p-2 mt-2' onChange={(e) => setState({ email: e.target.value })} value={state.email} name='email' type="email" placeholder='Write Registered Email' required />
+                        <input className='border-4 outline-none rounded-md p-2 mt-2' onChange={(e) => { setState({ email: e.target.value }); setError(""); setIsSubmitting(false) }} value={state.email} name='email' type="email" placeholder='Write Registered Email' required />
                         <input
                             className={`border-4 w-[100%] outline-none rounded-md p-2 mt-2 text-white cursor-pointer ${isSubmitting ? "bg-gray-300 " : 'bg-blue-400'}`}
                             type='submit'

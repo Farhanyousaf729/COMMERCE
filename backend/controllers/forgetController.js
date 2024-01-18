@@ -7,8 +7,8 @@ import asyncHandler from "express-async-handler"
 const ForgetPassword = asyncHandler(async (req, res) => {
 
     const { email } = req.body
-    console.log(email);
-    const user = await UserModel.findOne({ email: email })
+    // console.log(email);
+    const user = await UserModel.findOne({ email })
     if (!user) {
         res.status(404)
         throw new Error("email not found")
@@ -98,7 +98,7 @@ const verifyOtpAndUpdatePassword = asyncHandler(async (req, res) => {
 
     user.password = password
     await user.save()
-    res.status(201).json({ statusbar: 'success' })
+    res.json({ status: 'success' })
 
 })
 

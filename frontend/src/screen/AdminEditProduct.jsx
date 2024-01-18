@@ -86,6 +86,8 @@ const AdminEditProduct = () => {
 
     }
   }
+
+
   const submitData = (e) => {
     e.preventDefault()
     alert('Uploading')
