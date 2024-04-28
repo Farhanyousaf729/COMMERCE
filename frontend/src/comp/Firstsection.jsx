@@ -34,7 +34,7 @@ const Firstsection = () => {
           </li>
           <li className=' flex flex-col items-center font-normal'>
             <BsFillLightningChargeFill />
-            <button onClick={handleForword}>Electron</button>
+            <button onClick={handleForword}>Electronics</button>
           </li>
           <li className=' flex flex-col items-center font-normal'>
             <MdLocalMovies />
